@@ -1,0 +1,214 @@
+<% layout("/layouts/boilerplate") %>
+
+<body>
+<main class="edit-page">
+<div class="edit-container">
+
+
+<div class="edit-header">
+    <h2>Edit Listing</h2>
+    <p>Update the details of your property</p>
+</div>
+
+
+
+<form 
+    method="POST"
+    action="/getlistings/<%= alisting._id %>/put?_method=PUT"
+    enctype="multipart/form-data"
+    class="needs-validation"
+    novalidate
+>
+
+<div class="row g-3">
+
+
+<div class="col-12">
+    <label class="form-label">Title</label>
+    <input type="text" class="form-control"
+           name="listing[title]"
+           value="<%= alisting.title %>" required>
+    <div class="invalid-feedback">Title is required.</div>
+</div>
+
+
+<div class="col-12">
+    <label class="form-label">Description</label>
+    <textarea class="form-control" rows="4"
+        name="listing[description]" required><%= alisting.description %></textarea>
+    <div class="invalid-feedback">Description is required.</div>
+</div>
+
+<div class="col-md-6">
+    <label class="form-label">Price (₹)</label>
+    <input type="number" class="form-control"
+           name="listing[Price]"
+           value="<%= alisting.Price %>" required>
+</div>
+
+
+<div class="col-md-6">
+    <label class="form-label">Country</label>
+    <input type="text" class="form-control"
+           name="listing[country]"
+           value="<%= alisting.country %>" required>
+</div>
+
+
+<div class="col-md-6">
+    <label class="form-label">Location</label>
+    <div class="input-group">
+        <input type="text"
+               class="form-control"
+               id="location"
+               name="listing[location]"
+               value="<%= alisting.location %>" required>
+        <button type="button" class="btn btn-outline-secondary" id="findLocation">
+            Find on Map
+        </button>
+    </div>
+    <div class="invalid-feedback">Location is required.</div>
+</div>
+
+
+<div class="col-md-6">
+    <label class="form-label">Category</label>
+    <select class="form-select" name="listing[category]">
+    <option value="">Choose category</option>
+
+    <% ["Mountains","Swimming-Pools","Forests","Farms","Sea-Side","castles","iconic-Cities"]
+        .forEach(cat => { %>
+
+        <option value="<%= cat %>"
+            <%=  (alisting && alisting.category == cat) ? "selected" : "" %> >
+            <%= cat.replace("-", " ") %>
+        </option>
+
+    <% }) %>
+</select>
+
+
+</div>
+
+<div class="col-12">
+    <label class="form-label">Update Location on Map</label>
+    <div id="map"></div>
+</div>
+
+<input type="hidden" id="lng"
+       name="listing[longitude]"
+       value="<%= alisting.geometry.coordinates[0] %>">
+
+<input type="hidden" id="lat"
+       name="listing[latitude]"
+       value="<%= alisting.geometry.coordinates[1] %>">
+
+
+<div class="col-12">
+    <label class="form-label">Update Image</label>
+    <input type="file" class="form-control"
+           name="image" accept="image/*">
+</div>
+
+
+<div class="col-12 text-center mt-4">
+    <button type="submit" class="btn btn-primary px-5">
+        Save Changes
+    </button>
+</div>
+
+</div>
+</form>
+</div>
+</main>
+
+
+<style>
+.edit-page{
+    background:#f8fafc;
+    min-height:100vh;
+    padding:40px 16px;
+}
+.edit-container{
+    max-width:720px;
+    margin:auto;
+    background:#fff;
+    padding:32px;
+    border-radius:16px;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+.edit-header{
+    text-align:center;
+    margin-bottom:24px;
+}
+#map{
+    height:300px;
+    border-radius:12px;
+}
+@media (max-width:576px){
+    .edit-container{padding:20px;}
+}
+</style>
+
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+const lat = <%= alisting.geometry.coordinates[1] %>;
+const lng = <%= alisting.geometry.coordinates[0] %>;
+
+const map = L.map('map').setView([lat, lng], 13);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+        'Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+}).addTo(map);
+
+
+
+const marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+
+
+marker.on('dragend', e => {
+    const p = e.target.getLatLng();
+    document.getElementById("lat").value = p.lat;
+    document.getElementById("lng").value = p.lng;
+});
+
+
+map.on('click', e => {
+    marker.setLatLng(e.latlng);
+    document.getElementById("lat").value = e.latlng.lat;
+    document.getElementById("lng").value = e.latlng.lng;
+});
+
+
+document.getElementById("findLocation").addEventListener("click", async () => {
+    const place = document.getElementById("location").value.trim();
+    if (!place) return alert("Enter a location first");
+    try{
+        const res = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`
+        );
+        const data = await res.json();
+
+        if (!data.length) return alert("Location not found");
+
+        const lat = data[0].lat;
+        const lon = data[0].lon;
+
+        map.setView([lat, lon], 13);
+        marker.setLatLng([lat, lon]);
+
+        document.getElementById("lat").value = lat;
+        document.getElementById("lng").value = lon;
+    }catch(err){
+        alert("Error locating place");
+        console.error(err);
+    }
+});
+</script>
+
+</body>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Error</title>
+
+  <link rel="stylesheet" href="/errorstyle.css">
+</head>
+
+<body>
+
+  <div class="error-wrapper">
+
+    <div class="icon floating">
+      ⚠️
+    </div>
+
+    <div class="card fade-in">
+      <h1><%= err.status || 500 %> Error</h1>
+      <p><%= err.message || "Something went wrong!" %></p>
+
+      <a href="/getlistings" class="btn scale-in">Go Back Home</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
