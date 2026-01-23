@@ -1,5 +1,6 @@
   const listing=require("../Models/listing");
   const {listingSchema}=require("../utils/Schema");
+  const cloudinary = require("cloudinary").v2;
 createlisting = async (req, res) => {
     try {
 
@@ -80,6 +81,9 @@ deletelisting=async(req,res)=>{
     await Review.deleteMany({
         _id:{$in:doc1.reviews}
     })
+      if (doc1.image && doc1.image.filename) {
+    await cloudinary.uploader.destroy(doc1.image.filename);
+  }
     req.flash("success","successfully deleted listing");
     res.redirect("/getlistings");
 }
