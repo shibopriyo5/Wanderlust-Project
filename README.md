@@ -154,6 +154,8 @@ Contributions are welcome! Please open an issue or submit a pull request for bug
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+## License
+
+This project is open source and available under the [ISC License](LICENSE).
 
 ---
