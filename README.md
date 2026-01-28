@@ -36,7 +36,7 @@ Wanderlust is a full-stack web application for discovering, listing, and reviewi
 
 ## Demo
 
-> _**Note:** This is a learning project and does not offer live bookings or process real transactions._       Users are solely responsible for the content they submit, including locations and reviews.The platform does not verify user-submitted data.
+> _**Note:** This is a learning project and does not offer live bookings or process real transactions._       Users are solely responsible for the content they submit, including locations and reviews. user-submitted data is not verified in this Project . 
         
 
 - **Try Locally**: [Setup instructions below](#setup--installation)
@@ -142,7 +142,7 @@ Server runs by default on [http://localhost:8080](http://localhost:8080)
 - Leave reviews for other listings, or manage your own reviews.
 
 _**Disclaimer:** All data shown (such as listings, locations, and reviews) is for demonstration purposes only and not representative of any real-world service or business. No actual bookings or payments are processed._       Users are solely responsible for the content they submit, including locations and reviews.
-        The platform does not verify user-submitted data.
+       user-submitted data is not verified in this Project . 
 
 ---
 
