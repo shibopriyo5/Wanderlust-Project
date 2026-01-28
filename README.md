@@ -8,7 +8,6 @@ Wanderlust is a full-stack web application for discovering, listing, and reviewi
 
 - [Features](#features)
 - [Demo](#demo)
-- [Screenshots](#screenshots)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Setup & Installation](#setup--installation)
@@ -86,7 +85,7 @@ Wanderlust-Project/
 
 ### Prerequisites
 
-- **Node.js** (v18+ recommended)
+- **Node.js** 
 - **MongoDB Atlas** cluster or local instance
 - **Cloudinary** account for image uploads
 
