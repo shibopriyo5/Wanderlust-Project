@@ -1,6 +1,10 @@
 if(process.env.NODE_ENV!="production"){
     require("dotenv").config();
 }
+
+
+
+
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
@@ -22,6 +26,8 @@ const { register } = require("module");
 const multer = require('multer');
 
 const {storage} = require("./cloudConfig.js");
+
+
   
 
 
@@ -35,9 +41,24 @@ function fileFilter (req, file, cb) {
 
 
 const upload = multer({
-  storage
-
+  storage,
+  fileFilter
 });
+
+
+
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+  message: "Too many requests. Please try again later."
+});
+
+
+
+
+
 function isLoggedIn(req, res, next) {
     if (!req.isAuthenticated()) {
 
@@ -58,10 +79,15 @@ const {postreview,deleteReview}=require("./controller/Review");
 app.listen(8080,(req,res)=>{
     console.log("server is listening on port 8080");
 })
-app.use(express.urlencoded({extended:true}));
+
 app.use(methodOverride("_method"));
+
+app.use(express.json({ limit: "10kb" }));
+app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+app.use(limiter);
 app.use(express.static(path.join(__dirname,"public")));
-app.use(express.json()); 
+
+
 const store = MongoStore.create({
     mongoUrl: process.env.ATLAS_URL,
 
@@ -91,6 +117,8 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());

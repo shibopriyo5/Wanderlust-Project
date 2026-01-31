@@ -1,5 +1,5 @@
 {
-  "engines":{
+  "engines": {
     "node": "22.21.0"
   },
   "name": "majorproject",
@@ -20,6 +20,7 @@
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
     "express-session": "^1.18.2",
     "joi": "^18.0.2",
     "method-override": "^3.0.0",
