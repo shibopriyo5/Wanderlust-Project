@@ -1,6 +1,6 @@
 # Wanderlust Project
 
-Wanderlust is a full-stack web application for discovering, listing, and reviewing unique stays and experiences around the world. Inspired by modern property rental platforms, it features user authentication, property CRUD operations, interactive map integration, and a community-driven review system. The project leverages Node.js, Express.js, MongoDB, Cloudinary, and contemporary frontend technologies to provide a robust, practice-ground for real-world web development skills.
+Wanderlust is a full-stack web application for discovering, listing, and reviewing unique stays and experiences around the world. Inspired by modern property rental platforms, it features user authentication, property CRUD operations, interactive map integration, and a community-driven review system. The project leverages Node.js, Express.js, MongoDB, Cloudinary, and contemporary frontend technologies 
 
 ---
 
@@ -27,15 +27,33 @@ Wanderlust is a full-stack web application for discovering, listing, and reviewi
 - 🔐 **Authentication & Authorization**: Register and login forms with session security using [Passport.js](http://www.passportjs.org/). Only listing owners can edit/delete their own listings, and only review authors can delete their reviews.
 - 💡 **Advanced Search & Filter**: Search listings by title, country, and budget, as well as by category through UI filters.
 - ✨ **Responsive Design**: Built with modern CSS techniques and [Bootstrap 5](https://getbootstrap.com/) for consistently smooth UX on all devices.
-- 🛠️ **Robust Validation**: All user input is validated on both client and server sides using [Joi](https://joi.dev/) schemas to prevent invalid or malicious form submissions.
+-  🛠️ **Robust Backend Validation & Security**: All user input is validated using Joi schemas with additional request size limits and API rate limiting to prevent malicious usage.
 - ✔️ **Flash Messaging**: Context-aware success and error notifications are provided using flash messages.
 - 📦 **Production-Ready Config**: Easily configurable for local development or deployment on cloud platforms using environment variables.
 
 ---
 
+## Security Highlights
+
+To protect the deployed application and MongoDB Atlas database from misuse and abuse, the following backend security measures have been implemented:
+
+- 🚦 **API Rate Limiting**: Limits the number of requests per IP to prevent spam, brute-force attempts, and excessive traffic.
+- 📏 **Request Size Limiting**: Restricts payload size to protect the server and database from large or malicious requests.
+- 🛡️ **Strong Input Validation**: All incoming data (listings, reviews, uploads) is validated using Joi schemas to prevent invalid or malicious inputs.
+- 🖼️ **Secure File Upload Handling**: File uploads are validated for type and size before being processed and stored via Cloudinary.
+- 🔐 **Authorization Rules**: Only listing owners can modify/delete listings, and only review authors can delete their reviews.
+
+These measures help ensure stability, security, and safe public access for the deployed application.
+
+---
+
 ## Demo
 
-> _**Note:** This is a learning project and does not offer live bookings or process real transactions._       Users are solely responsible for the content they submit, including locations and reviews. user-submitted data is not verified in this Project . 
+> **Note:** This is a learning and portfolio project.  
+> - No real bookings or payments are processed.  
+> - User-submitted data (listings, locations, reviews) is not verified.  
+> - Users are solely responsible for the content they submit.
+
         
 
 - **Try Locally**: [Setup instructions below](#setup--installation)
@@ -58,6 +76,9 @@ Wanderlust is a full-stack web application for discovering, listing, and reviewi
 - [Joi](https://joi.dev/) (Schema validation)
 - [Connect-Flash](https://github.com/jaredhanson/connect-flash) (user notifications)
 - [Express-Session](https://github.com/expressjs/session) + [connect-mongo](https://github.com/jdesboeufs/connect-mongo) (Session storage)
+-  [Express-Rate-Limit](https://github.com/express-rate-limit/express-rate-limit) (API abuse prevention)
+- Request size limiting & secure middleware configuration
+
 
 ---
 
